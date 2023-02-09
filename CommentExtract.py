@@ -10,16 +10,16 @@ reddit = praw.Reddit(client_id='nb3VtwmfQQn3J-LDko4WCg',
 
 subreddit = reddit.subreddit('airpollution')
 
-for comment in subreddit.stream.comments():
-    try:
-        parent_id = str(comment.parent())
-        original = reddit.comment(parent_id)
-        print('Parent:')
-        print(original.body)
-        print('Reply:')
-        print(comment.body)
-    except praw.exceptions.PRAWException as e:
-        pass
+# for comment in subreddit.stream.comments():
+#     try:
+#         parent_id = str(comment.parent())
+#         original = reddit.comment(parent_id)
+#         print('Parent:')
+#         print(original.body)
+#         print('Reply:')
+#         print(comment.body)
+#     except praw.exceptions.PRAWException as e:
+#         pass
 
 topics_dict = { "title":[], \
                 "score":[], \
