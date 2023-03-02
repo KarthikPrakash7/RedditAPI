@@ -1,5 +1,6 @@
 import praw
 import csv
+import json
 
 def search_subreddits(subreddits, keywords):
     reddit = praw.Reddit(client_id='nb3VtwmfQQn3J-LDko4WCg',
@@ -19,20 +20,13 @@ def search_subreddits(subreddits, keywords):
     return comments
 
 def save_comments(comments):
-    with open('test1.csv', 'w', newline='', encoding='utf-8') as csvfile:
-        fieldnames = ['subreddit name', 'keyword', 'body']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=';')
-        writer.writeheader()
-        for comment in comments:
-            writer.writerow(fieldnames)
-            writer.writerow(comment)
-            # writer.writerow()
-        # csvwriter = csv.writer(csvfile)
-        # csvwriter.writerow(fieldnames)
-        # csvwriter.writerow(comments)
-        # csvwriter.writerow('\n')
+    fieldnames = ['subreddit name', 'keyword', 'body']
+    comments1 = [{k: list(v) if isinstance(v, set) else v for k, v in comments.data()} for comment in comments]
+    with open('test1.json', 'w', encoding='utf-8') as jsonfile:
+        data = {'fieldnames': fieldnames, 'comments': comments1}
+        json.dump(data, jsonfile, indent=4)
 
 subreddits = ['airpollution', 'sustainability', 'europe']
-keywords = ['air', 'pollution', 'environment', 'dust','air pollution', 'environmental pollution']
+keywords = ['air', 'pollution', 'environment', 'dust', 'smog', 'soot', 'acid rain','gas pollution', 'CO2', 'NO2', 'carbon dioxide', 'nitrogen dioxide', 'fog', 'smoke', 'haze']
 comments = search_subreddits(subreddits, keywords)
 save_comments(comments)
